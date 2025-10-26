@@ -4,22 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>♻️ AI Garbage Route Optimizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <h1>♻️ AI Powered Garbage Route Optimization</h1>
-    <p>Smart route planning for efficient waste collection</p>
-
-    <div class="input-section">
-      <label>Enter Collection Points (comma-separated coordinates):</label>
-      <input type="text" id="points" placeholder="e.g. (2,3),(4,1),(6,5),(8,2)" />
-
-      <button onclick="optimizeRoute()">Optimize Route</button>
+    <div class="header">
+      <h1>♻️ AI Garbage Route Optimizer</h1>
+      <p>Smart waste collection with advanced pathfinding algorithms</p>
     </div>
 
-    <div class="output-section" id="result"></div>
+    <div class="content">
+      <div class="panel">
+        <h2>🎯 Input Configuration</h2>
+        
+        <div class="input-group">
+          <label for="algorithm">Algorithm Selection:</label>
+          <select id="algorithm" name="algorithm">
+            <option value="greedy">Greedy (Nearest Neighbor)</option>
+            <option value="2opt">2-Opt Optimization</option>
+            <option value="genetic">Genetic Algorithm (Advanced)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Enter Coordinates (x,y):</label>
+          <input type="text" id="coordInput" placeholder="e.g., 50,50" />
+          <button class="btn-add" onclick="addPoint()" style="margin-top: 10px; width: 100%;">
+            ➕ Add Point
+          </button>
+        </div>
+
+        <div class="input-group">
+          <label>Or Enter Multiple Points:</label>
+          <input type="text" id="multiPoints" placeholder="e.g., (50,50),(100,80),(150,120)" />
+          <button class="btn-secondary" onclick="addMultiplePoints()" style="margin-top: 10px; width: 100%;">
+            📋 Add Multiple
+          </button>
+        </div>
+
+        <div class="point-list" id="pointList"></div>
+
+        <div class="button-group">
+          <button class="btn-primary" onclick="optimizeRoute()">🚀 Optimize Route</button>
+          <button class="btn-secondary" onclick="clearAll()">🗑️ Clear All</button>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-add" onclick="generateRandom()">🎲 Random Points</button>
+          <button class="btn-secondary" onclick="addDepot()">🏢 Set Depot</button>
+        </div>
+
+        <div id="alertBox"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🗺️ Route Visualization</h2>
+        
+        <div class="canvas-container">
+          <canvas id="canvas" width="500" height="400"></canvas>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background: #dc3545;"></div>
+              <span>Depot</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: #667eea;"></div>
+              <span>Collection Points</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: #28a745; width: 30px; height: 3px;"></div>
+              <span>Route</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="totalDistance">0</div>
+            <div class="stat-label">Total Distance (units)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="pointCount">0</div>
+            <div class="stat-label">Collection Points</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="algorithmUsed">-</div>
+            <div class="stat-label">Algorithm Used</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="computeTime">0ms</div>
+            <div class="stat-label">Computation Time</div>
+          </div>
+        </div>
+
+        <div class="route-list" id="routeList"></div>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
